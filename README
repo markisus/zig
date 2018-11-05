@@ -1,0 +1,1 @@
+Building the main example `g++ main.cpp zig.cpp zig_helpers.cpp -o main`
