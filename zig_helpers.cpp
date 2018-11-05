@@ -44,8 +44,12 @@ PivotSelection SelectPivot(const Tableau& tableau,
     // numerator/denominator < min_ratio_numerator/min_ratio_denominator
     // <=>
     // numerator*min_ratio_denonimnator < min_ratio_numerator*denominator
-    if (numerator * min_ratio_denominator < 
-        min_ratio_numerator * denominator) {
+    const double ad = numerator * min_ratio_denominator;
+    const double bc = min_ratio_numerator * denominator;
+    const bool passes_ratio_test = ad < bc;
+    const bool passes_blands_rule =
+     (ad == bc) && tableau.basic_variable_ids[constraint_id] < outgoing_variable_id;
+    if (passes_ratio_test || passes_blands_rule) {
       // Ratio test passed. This is the new active constraint.
       active_constraint_id = constraint_id;
       min_ratio_numerator = numerator;
@@ -91,6 +95,7 @@ void FixNonbasicVariableCoefficients(
     // Find the coefficient of this variable in
     // the active constraint.
     // todo?: try binary search
+    // todo?: one thread per column
     const auto coefficient_it = std::find_if(
         current_column.coefficients.begin(),
         current_column.coefficients.end(),

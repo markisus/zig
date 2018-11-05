@@ -3,6 +3,9 @@
 
 using namespace zig;
 int main(int argc, char** argv) {
+  // Automobile shop example from Ch.2 of 
+  // Applied Mathematical Programming 
+  // by Bradley, Hax, and Magnanti
   Tableau tableau;
   tableau.objective = 0;
 
@@ -51,5 +54,4 @@ int main(int argc, char** argv) {
   Maximize(&tableau);
 
   std::cout << "Maximized to " << tableau.objective << std::endl;
-      
 }
